@@ -1,11 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_cors import CORS
 from flask_heroku import Heroku
-import os
-import jsonify
-
 
 app = Flask(__name__)
 
@@ -22,10 +19,10 @@ class Items(db.Model):
     __tablename__ = "items"
     id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(100), unique=False)
-    item_description = db.Column(db.String(1000), unique=False)
+    item_description = db.Column(db.String(250), unique=False)
     item_category = db.Column(db.String(30), unique=False)
     item_price = db.Column(db.Integer, unique=False)
-    item_url = db.Column(db.String(1000), unique=False)
+    item_url = db.Column(db.String(250), unique=False)
 
     def __init__(self, item_name, item_description, item_category, item_price, item_url):
         self.item_name = item_name
