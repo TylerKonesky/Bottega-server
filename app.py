@@ -12,6 +12,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 class Items(db.Model):
+    __tablename__ = "items"
     id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(100), unique=False)
     item_description = db.Column(db.String(1000), unique=False)
