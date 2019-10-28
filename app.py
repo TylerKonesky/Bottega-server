@@ -7,7 +7,7 @@ import jsonify
 app = Flask(__name__)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://ltgosiwrqvfkku:c07bc1c6da70457391a7715c22230b635272781d8a50857d59e61cec6adf03f8@ec2-54-83-202-132.compute-1.amazonaws.com:5432/dbfiqe07rppc5k"
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
