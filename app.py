@@ -131,6 +131,16 @@ def add_guide():
     item = Items.query.get(new_item.id)
 
     return item_schema.jsonify(item)
+
+@app.route("/removesaved/<id>", methods=["DELETE"])
+def remove_saved_item():
+    item = Items.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+
+    all_items = Items.query.all()
+    result = result = items_schema.dump(all_items)
+    return carts_schema.jsonify(result)
     
 
 if __name__ == '__main__':
