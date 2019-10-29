@@ -46,6 +46,14 @@ def add_to_cart():
 
     return cart_schema.jsonify(cart_item)
 
+@app.route("getcart/<id>", methods=["GET"])
+def get_cart_items(id):
+    all_items = Users.query.all(id)
+    result = carts_schema.dump(all_items)
+
+    return carts_schema.jsonify(result)
+
+
 class Items(db.Model):
     __tablename__ = "items"
     id = db.Column(db.Integer, primary_key=True)
@@ -73,7 +81,7 @@ items_schema = ItemSchema(many=True)
 
 @app.route("/getitems", methods=["GET"])
 def get_items():
-    all_items = Items.query.all()
+    all_items = Items.query.all(id)
     result = items_schema.dump(all_items)
 
     return items_schema.jsonify(result)
