@@ -133,7 +133,7 @@ def add_guide():
     return item_schema.jsonify(item)
 
 @app.route("/removesaved/<id>", methods=["DELETE"])
-def remove_saved_item():
+def remove_saved_item(id):
     item = Items.query.get(id)
     db.session.delete(item)
     db.session.commit()
