@@ -36,15 +36,19 @@ carts_schema = CartSchema(many=True)
 def add_to_cart():
     user_id = request.json['user_id']
     cart_item = request.json['cart_item']
-    
     new_cart_item = Users(user_id, cart_item)
-
+    
     db.session.add(new_cart_item)
     db.session.commit()
-
+    
+    print(new_cart_item, request)
     cart_item = Users.query.get(new_cart_item.id)
 
-    return carts_schema.jsonify(cart_item)
+    return cart_schema.jsonify(cart_item)
+
+    #  item = Items.query.get(new_item.id)
+
+    # return item_schema.jsonify(item)
 
 @app.route("/getcart/<user_id>", methods=["GET"])
 def get_cart_items(user_id):
