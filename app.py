@@ -32,7 +32,7 @@ class CartSchema(ma.Schema):
 cart_schema = CartSchema()
 carts_schema = CartSchema(many=True)
 
-@app.route("/addToCart", methods=["GET"])
+@app.route("/addToCart", methods=["POST"])
 def add_to_cart():
     user_id = request.json['user_id']
     cart_item = request.json['cart_item']
