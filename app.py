@@ -15,6 +15,37 @@ CORS(app)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+class Users(db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(50), unique=False)
+    cart_item = db.Column(db.Integer(), unique=False)
+
+    def __init__(self, user_id, cart_item):
+        self.user_id = user_id
+        self.cart_item = cart_item
+
+class CartSchema(ma.Schema):
+    class Meta: 
+        fields = ('user_id', "cart_item")
+
+cart_schema = CartSchema()
+carts_schema = CartSchema(many=True)
+
+@app.route("/addToCart", methods=["GET"])
+def add_to_cart():
+    user_id = request.json['user_id']
+    cart_item = request.json['cart_item']
+    
+    new_cart_item = Users(user_id, cart_item)
+
+    db.session.add(new_cart_item)
+    db.session.commit()
+
+    cart_item = Users.query.get(new_cart_item.id)
+
+    return cart_schema.jsonify(cart_item)
+
 class Items(db.Model):
     __tablename__ = "items"
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +68,8 @@ class ItemSchema(ma.Schema):
 
 item_schema = ItemSchema()
 items_schema = ItemSchema(many=True)
+
+
 
 @app.route("/getitems", methods=["GET"])
 def get_items():
