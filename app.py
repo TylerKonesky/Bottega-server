@@ -92,7 +92,7 @@ class Items(db.Model):
 
 class ItemSchema(ma.Schema):
     class Meta: 
-        fields = ('item_name', "item_description", "item_category", "item_price", "item_url")
+        fields = ("id", 'item_name', "item_description", "item_category", "item_price", "item_url")
 
 item_schema = ItemSchema()
 items_schema = ItemSchema(many=True)
@@ -101,7 +101,7 @@ items_schema = ItemSchema(many=True)
 
 @app.route("/getitems", methods=["GET"])
 def get_items():
-    all_items = Items.query.all(id)
+    all_items = Items.query.all()
     result = items_schema.dump(all_items)
 
     return items_schema.jsonify(result)
