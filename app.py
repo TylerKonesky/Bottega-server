@@ -53,6 +53,12 @@ def get_cart_items(id):
 
     return carts_schema.jsonify(result)
 
+@app.route("/getallcarts", methods=["GET"])
+def get_all_carts():
+    all_items = Users.query.all()
+    result = carts_schema.dump(all_items)
+
+    return carts_schema.jsonify(result)
 
 class Items(db.Model):
     __tablename__ = "items"
