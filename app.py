@@ -48,7 +48,7 @@ def add_to_cart():
 
 @app.route("/getcart/<user_id>", methods=["GET"])
 def get_cart_items(user_id):
-    all_items = Users.query.get(user_id == user_id)
+    all_items = Users.query.get(user_id)
     result = carts_schema.dump(all_items)
 
     return carts_schema.jsonify(result)
