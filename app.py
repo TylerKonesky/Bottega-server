@@ -27,7 +27,7 @@ class Users(db.Model):
 
 class CartSchema(ma.Schema):
     class Meta: 
-        fields = ('user_id', "cart_item")
+        fields = ("id", 'user_id', "cart_item")
 
 cart_schema = CartSchema()
 carts_schema = CartSchema(many=True)
@@ -44,7 +44,7 @@ def add_to_cart():
 
     cart_item = Users.query.get(new_cart_item.id)
 
-    return cart_schema.jsonify(cart_item)
+    return carts_schema.jsonify(cart_item)
 
 @app.route("/getcart/<user_id>", methods=["GET"])
 def get_cart_items(user_id):
@@ -56,9 +56,23 @@ def get_cart_items(user_id):
 @app.route("/getallcarts", methods=["GET"])
 def get_all_carts():
     all_items = Users.query.all()
+    print(request)
     result = carts_schema.dump(all_items)
+    print(result)
 
     return carts_schema.jsonify(result)
+
+@app.route("/removeitem/<id>", methods=["DELETE"])
+def remove_from_cart(id):
+    item = Users.query.get(id)
+    db.session.delete(item)
+    db.session.commit()
+
+    all_items = Users.query.all()
+    result = result = carts_schema.dump(all_items)
+    return carts_schema.jsonify(result)
+
+    
 
 class Items(db.Model):
     __tablename__ = "items"
